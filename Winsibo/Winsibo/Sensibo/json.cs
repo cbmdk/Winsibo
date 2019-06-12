@@ -1,31 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
-namespace sensibo.sensibo
+namespace Winsibo.sensibo
 {
-    class json
+    class Json
     {
     }
     public class Room
     {
-        public string name { get; set; }
-        public string icon { get; set; }
+        public string Name { get; set; }
+        public string Icon { get; set; }
     }
 
     public class Pod
     {
-        public string id { get; set; }
-        public Room room { get; set; }
+        public string Id { get; set; }
+        public Room Room { get; set; }
 
     }
 
-    public class pods
+    public class Pods
     {
-        public string status { get; set; }
-        public List<Pod> result { get; set; }
+        public string Status { get; set; }
+        public List<Pod> Result { get; set; }
     }
 
 
@@ -33,24 +29,24 @@ namespace sensibo.sensibo
 
     public class AcState
     {
-        public bool on { get; set; }
-        public int targetTemperature { get; set; }
-        public string temperatureUnit { get; set; }
-        public string mode { get; set; }
-        public string fanLevel { get; set; }
+        public bool On { get; set; }
+        public int TargetTemperature { get; set; }
+        public string TemperatureUnit { get; set; }
+        public string Mode { get; set; }
+        public string FanLevel { get; set; }
     }
 
     [Newtonsoft.Json.JsonObject(Title = "AcState")]
     public class JsonAcState
     {
-        public SetAcState acState { get; set; }
+        public SetAcState AcState { get; set; }
     }
     public class SetAcState
     {
-        public bool on { get; set; }
-        public int targetTemperature { get; set; }
-        public string mode { get; set; }
-        public string fanLevel { get; set; }
+        public bool On { get; set; }
+        public int TargetTemperature { get; set; }
+        public string Mode { get; set; }
+        public string FanLevel { get; set; }
     }
 
     public class Result
@@ -59,7 +55,7 @@ namespace sensibo.sensibo
         public AcState acState { get; set; }
     }
 
-    public class acstatus
+    public class AcStatus
     {
         public string status { get; set; }
         public bool moreResults { get; set; }
@@ -73,17 +69,17 @@ namespace sensibo.sensibo
         public string time { get; set; }
     }
 
-    public class measurmentvalues
+    public class MeasurmentValues
     {
-        public Time time { get; set; }
-        public double temperature { get; set; }
-        public double humidity { get; set; }
+        public Time Time { get; set; }
+        public double Temperature { get; set; }
+        public double Humidity { get; set; }
     }
 
-    public class measurements
+    public class Measurements
     {
-        public string status { get; set; }
-        public List<measurmentvalues> result { get; set; }
+        public string Status { get; set; }
+        public List<MeasurmentValues> Result { get; set; }
     }
 
 

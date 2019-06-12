@@ -1,15 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace sensibo
+namespace Winsibo.sensibo
 {
        
-    public class api
+    public class Api
     {
-
         //==========================================================================================//
         //This API wrapper is provided to enable anyone to integrate the senibo API into their own
         //application.
@@ -18,11 +13,10 @@ namespace sensibo
         //==========================================================================================//
         private string apiKey = "";
 
-
         /// <summary>
         /// Initiate the connection to the sensibo web API
         /// </summary>
-        public api(string apikey)
+        public Api(string apikey)
         {
             try
             {
@@ -31,7 +25,6 @@ namespace sensibo
                     throw new ArgumentNullException("apikey", "please initate with an apikey");
                 }
                 apiKey = apikey;
-
             }
 
             catch (ArgumentNullException e)
@@ -42,31 +35,29 @@ namespace sensibo
             {
                 Console.WriteLine("{0} general exception", e);
             }
-
-
         }
 
-        public sensibo.pods getPods()
+        public Pods getPods()
         {
-            sensibo.restclient sclient = new sensibo.restclient(apiKey);
-            return sclient.getpods();
+            var sclient = new RestClient(apiKey);
+            return sclient.GetPods();
         }
 
-        public sensibo.acstatus getPodStatus(string id)
+        public AcStatus GetPodStatus(string id)
         {
-            sensibo.restclient sclient = new sensibo.restclient(apiKey);
+            var sclient = new RestClient(apiKey);
             return sclient.getpodstatus(id);
         }
 
-        public sensibo.measurements getPodMeasurments(string id)
+        public Measurements GetPodMeasurments(string id)
         {
-            sensibo.restclient sclient = new sensibo.restclient(apiKey);
-            return sclient.getpodmeasurments(id);
+            var sclient = new RestClient(apiKey);
+            return sclient.GetPodMeasurments(id);
         }
-        public sensibo.setResult SetStatus(string id,sensibo.SetAcState state)
+        public setResult SetStatus(string id,SetAcState state)
         {
-            sensibo.restclient sclient = new sensibo.restclient(apiKey);
-            return sclient.postpodstatus(id,state);
+            RestClient sclient = new RestClient(apiKey);
+            return sclient.PostPodStatus(id,state);
         }
 
 

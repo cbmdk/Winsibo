@@ -1,33 +1,29 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
+using Newtonsoft.Json;
 
-
-namespace sensibo.sensibo
+namespace Winsibo.sensibo
 {
     
-    class restclient
+    class RestClient
     {
-        const string hosturl = "home.sensibo.com";
-        const string basePath = "/api/v2";
-        const string schemes = "https";
-        const string consumer = "application/json";
-        const string producer = "application/json; charset=utf-8";
-        string apikey = ""; //Enter you apikey here if you want to hard code it
-        public restclient(string apiKey)
+        const string Hosturl = "home.sensibo.com";
+        const string BasePath = "/api/v2";
+        const string Schemes = "https";
+        const string Consumer = "application/json";
+        const string Producer = "application/json; charset=utf-8";
+        public readonly string _apikey = ""; //Enter you apikey here if you want to hard code it
+        public RestClient(string apiKey)
         {
-            apikey = apiKey;
+            _apikey = apiKey;
         }
-        public pods getpods()
+        public Pods GetPods()
         {
 
-            var request = (HttpWebRequest)WebRequest.Create(schemes + "://" + hosturl + basePath + "/users/me/pods?fields=id,room&apiKey=" + apikey);
+            var request = (HttpWebRequest)WebRequest.Create(Schemes + "://" + Hosturl + BasePath + "/users/me/Pods?fields=id,room&apiKey=" + _apikey);
             request.Method = "GET"; //Set the request type to GET
-            request.ContentType = consumer;
+            request.ContentType = Consumer;
 
             using (var response = (HttpWebResponse)request.GetResponse())
             {
@@ -35,7 +31,7 @@ namespace sensibo.sensibo
 
                 if (response.StatusCode != HttpStatusCode.OK)
                 {
-                    var message = String.Format("Request failed. Received HTTP {0}", response.StatusCode);
+                    var message = $"Request failed. Received HTTP {response.StatusCode}";
                     throw new ApplicationException(message);
                 }
 
@@ -48,18 +44,18 @@ namespace sensibo.sensibo
                         }
                 }
 
-                //Convert the json respons to pods object
-                pods podlist = Newtonsoft.Json.JsonConvert.DeserializeObject<pods>(responseValue);
+                //Convert the json respons to Pods object
+                var podList = JsonConvert.DeserializeObject<Pods>(responseValue);
 
-                return podlist;
+                return podList;
             }
         }
-        public acstatus getpodstatus(string id)
+        public AcStatus getpodstatus(string id)
         {
 
-            var request = (HttpWebRequest)WebRequest.Create(schemes + "://" + hosturl + basePath + "/pods/"+ id  + "/acStates?fields=status,acState&limit=1&apiKey=" + apikey);
+            var request = (HttpWebRequest)WebRequest.Create(Schemes + "://" + Hosturl + BasePath + "/Pods/"+ id  + "/acStates?fields=status,acState&limit=1&apiKey=" + _apikey);
             request.Method = "GET"; //Set the request type to GET
-            request.ContentType = consumer;
+            request.ContentType = Consumer;
 
             using (var response = (HttpWebResponse)request.GetResponse())
             {
@@ -67,7 +63,7 @@ namespace sensibo.sensibo
 
                 if (response.StatusCode != HttpStatusCode.OK)
                 {
-                    var message = String.Format("Request failed. Received HTTP {0}", response.StatusCode);
+                    var message = $"Request failed. Received HTTP {response.StatusCode}";
                     throw new ApplicationException(message);
                 }
 
@@ -80,57 +76,54 @@ namespace sensibo.sensibo
                         }
                 }
 
-                //Convert the json respons to acstatus object
-                acstatus acStatus = Newtonsoft.Json.JsonConvert.DeserializeObject<acstatus>(responseValue);
+                //Convert the json respons to AcStatus object
+                AcStatus acStatus = JsonConvert.DeserializeObject<AcStatus>(responseValue);
 
                 return acStatus;
             }
 
         }
-        public measurements getpodmeasurments(string id)
+        public Measurements GetPodMeasurments(string id)
         {
 
-            var request = (HttpWebRequest)WebRequest.Create(schemes + "://" + hosturl + basePath + "/pods/" + id + "/measurements?apiKey=" + apikey);
+            var request = (HttpWebRequest)WebRequest.Create(Schemes + "://" + Hosturl + BasePath + "/Pods/" + id + "/measurements?apiKey=" + _apikey);
             request.Method = "GET"; //Set the request type to GET
-            request.ContentType = consumer;
+            request.ContentType = Consumer;
 
-            using (var response = (HttpWebResponse)request.GetResponse())
+            var response = (HttpWebResponse)request.GetResponse();
+            var responseValue = string.Empty;
+
+            if (response.StatusCode != HttpStatusCode.OK)
             {
-                var responseValue = string.Empty;
-
-                if (response.StatusCode != HttpStatusCode.OK)
-                {
-                    var message = String.Format("Request failed. Received HTTP {0}", response.StatusCode);
-                    throw new ApplicationException(message);
-                }
-
-                using (var responseStream = response.GetResponseStream())
-                {
-                    if (responseStream != null)
-                        using (var reader = new StreamReader(responseStream))
-                        {
-                            responseValue = reader.ReadToEnd();
-                        }
-                }
-
-                //Convert the json respons to acstatus object
-                measurements mstatus = Newtonsoft.Json.JsonConvert.DeserializeObject<measurements>(responseValue);
-
-                return mstatus;
+                var message = String.Format("Request failed. Received HTTP {0}", response.StatusCode);
+                throw new ApplicationException(message);
             }
 
+            using (var responseStream = response.GetResponseStream())
+            {
+                if (responseStream != null)
+                    using (var reader = new StreamReader(responseStream))
+                    {
+                        responseValue = reader.ReadToEnd();
+                    }
+            }
+
+            //Convert the json respons to AcStatus object
+            Measurements mstatus = JsonConvert.DeserializeObject<Measurements>(responseValue);
+
+            return mstatus;
         }
-        public setResult postpodstatus(string id, SetAcState targetstate)
+        public setResult PostPodStatus(string id, SetAcState targetstate)
         {
 
-            JsonAcState Jstate = new JsonAcState();
-            Jstate.acState = targetstate;
+            var Jstate = new JsonAcState();
+            Jstate.AcState = targetstate;
 
-            string json = Newtonsoft.Json.JsonConvert.SerializeObject(Jstate);
+            string json = JsonConvert.SerializeObject(Jstate);
            
-            var request = (HttpWebRequest)WebRequest.Create(schemes + "://" + hosturl + basePath + "/pods/" + id + "/acStates?apiKey=" + apikey);
+            var request = (HttpWebRequest)WebRequest.Create(Schemes + "://" + Hosturl + BasePath + "/Pods/" + id + "/acStates?apiKey=" + _apikey);
             request.Method = "POST"; //Set the request type to GET
-            request.ContentType = producer;
+            request.ContentType = Producer;
             
 
             using (var streamWriter = new StreamWriter(request.GetRequestStream()))
@@ -141,30 +134,27 @@ namespace sensibo.sensibo
                 streamWriter.Close();
             }
 
-            using (var response = (HttpWebResponse)request.GetResponse())
+            var response = (HttpWebResponse)request.GetResponse();
+            var responseValue = string.Empty;
+
+            if (response.StatusCode != HttpStatusCode.OK)
             {
-                var responseValue = string.Empty;
-
-                if (response.StatusCode != HttpStatusCode.OK)
-                {
-                    var message = String.Format("Request failed. Received HTTP {0}", response.StatusCode);
-                    throw new ApplicationException(message);
-                }
-
-                using (var responseStream = response.GetResponseStream())
-                {
-                    if (responseStream != null)
-                        using (var reader = new StreamReader(responseStream))
-                        {
-                            responseValue = reader.ReadToEnd();
-                        }
-                }
-
-                //Convert the json respons to acstatus object
-                setResult mstatus = Newtonsoft.Json.JsonConvert.DeserializeObject<setResult>(responseValue);
-                return mstatus;
+                var message = String.Format("Request failed. Received HTTP {0}", response.StatusCode);
+                throw new ApplicationException(message);
             }
 
+            using (var responseStream = response.GetResponseStream())
+            {
+                if (responseStream != null)
+                    using (var reader = new StreamReader(responseStream))
+                    {
+                        responseValue = reader.ReadToEnd();
+                    }
+            }
+
+            //Convert the json respons to AcStatus object
+            setResult mstatus = JsonConvert.DeserializeObject<setResult>(responseValue);
+            return mstatus;
         }
 
     }

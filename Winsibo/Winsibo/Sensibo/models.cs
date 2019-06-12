@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace sensibo.sensibo
+﻿namespace Winsibo.sensibo
 {
-    public class models
+    public class Models
     {
-        public class pod
+        public class Pod
         {
-            public string podid { get; set; }
-            public string podobject {get; set;}
+            public string Podid { get; set; }
+            public string Podobject {get; set;}
         }
     }
 }

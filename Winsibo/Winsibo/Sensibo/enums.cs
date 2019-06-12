@@ -1,14 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-
-
-namespace sensibo.sensibo
+﻿namespace Winsibo.sensibo
 {
-    public enum httpverb
+    public enum Httpverb
     {
         GET,
         POST,
