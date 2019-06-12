@@ -37,7 +37,7 @@ namespace Winsibo.sensibo
             }
         }
 
-        public Pods getPods()
+        public Pods GetPods()
         {
             var sclient = new RestClient(apiKey);
             return sclient.GetPods();
@@ -46,7 +46,7 @@ namespace Winsibo.sensibo
         public AcStatus GetPodStatus(string id)
         {
             var sclient = new RestClient(apiKey);
-            return sclient.getpodstatus(id);
+            return sclient.GetPodStatus(id);
         }
 
         public Measurements GetPodMeasurments(string id)

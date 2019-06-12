@@ -15,6 +15,8 @@ namespace Winsibo
 
         protected override void OnStart()
         {
+            var createConnectionToSensibo = new sensibo.Api("EOKJtzZmbgKQe3ZXOMu9MlCjkorbTc");
+            var pods = createConnectionToSensibo.GetPods();
             // Handle when your app starts
         }
 

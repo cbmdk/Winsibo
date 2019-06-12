@@ -50,7 +50,7 @@ namespace Winsibo.sensibo
                 return podList;
             }
         }
-        public AcStatus getpodstatus(string id)
+        public AcStatus GetPodStatus(string id)
         {
 
             var request = (HttpWebRequest)WebRequest.Create(Schemes + "://" + Hosturl + BasePath + "/Pods/"+ id  + "/acStates?fields=status,acState&limit=1&apiKey=" + _apikey);
